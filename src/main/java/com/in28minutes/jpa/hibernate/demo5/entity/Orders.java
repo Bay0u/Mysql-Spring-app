@@ -1,6 +1,7 @@
 package com.in28minutes.jpa.hibernate.demo5.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Orders {
@@ -10,6 +11,9 @@ public class Orders {
     private boolean checkout;
     private int customer_id;
 
+    @ManyToMany
+    private List<OrderDetails> detailsList;
+
     public Orders() {
     }
 
@@ -18,6 +22,14 @@ public class Orders {
         this.total_price = total_price;
         this.checkout = checkout;
         this.customer_id = customer_id;
+    }
+
+    public List<OrderDetails> getDetailsList() {
+        return detailsList;
+    }
+
+    public void setDetailsList(List<OrderDetails> detailsList) {
+        this.detailsList = detailsList;
     }
 
     public int getId() {

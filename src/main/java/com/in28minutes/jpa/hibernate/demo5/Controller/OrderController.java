@@ -39,8 +39,8 @@ public class OrderController {
     }
 
     @RequestMapping("/orders/{id}")
-    public Optional<Orders> getOrderById(@PathVariable int id){
-        return ordersRepositery.findById(id);
+    public Orders getOrderById(@PathVariable int id){
+        return ordersRepositery.findById(id).orElse(new Orders());
     }
 
     @RequestMapping(method= RequestMethod.POST,value="/orders")
@@ -70,14 +70,14 @@ public class OrderController {
         order.setTotal_price(order.getTotal_price()+products.getPrice());
 
         addOrder(order);
-
+        order.getDetailsList().add(orderDetails);
         orderDetailsRepositery.save(orderDetails);
     }
 
     @RequestMapping(method= RequestMethod.PUT,value="/Checkout/{id}")
     public void CheckOut (@PathVariable int id){
 
-        Orders order = getOrderById(id).orElse(new Orders());
+        Orders order = getOrderById(id);
         order.setCheckout(true);
         ordersRepositery.save(order);
 
